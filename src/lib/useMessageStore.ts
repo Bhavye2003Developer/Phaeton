@@ -12,7 +12,7 @@ interface ConfigState {
 
 interface MessageState {
   content: string;
-  configs: ConfigState;
+  config: ConfigState;
   updateContent: (updatedContent: string) => void;
   updateEncryption: (encryption: Encryption) => void;
   updateOpenLimit: (limit: number) => void;
@@ -20,7 +20,7 @@ interface MessageState {
 
 const useMessageStore = create<MessageState>((set, get) => ({
   content: "",
-  configs: {
+  config: {
     encryption: Encryption["AES-GCM"],
     openLimit: 5,
   },
@@ -28,10 +28,11 @@ const useMessageStore = create<MessageState>((set, get) => ({
     set(() => ({ content: updatedContent }));
   },
   updateEncryption: (encryption) => {
-    set((state) => ({ configs: { ...state.configs, encryption } }));
+    set((state) => ({ config: { ...state.config, encryption } }));
   },
   updateOpenLimit: (limit) => {
-    set((state) => ({ configs: { ...state.configs, openLimit: limit } }));
+    console.log("Inside upateopenlimit: ", limit);
+    set((state) => ({ config: { ...state.config, openLimit: limit } }));
   },
 }));
 

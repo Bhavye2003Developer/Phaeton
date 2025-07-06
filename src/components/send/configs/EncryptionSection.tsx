@@ -9,7 +9,7 @@ import useMessageStore, { Encryption } from "@/lib/useMessageStore";
 
 export default function EncryptionSection() {
   const {
-    configs: { encryption },
+    config: { encryption },
     updateEncryption,
   } = useMessageStore();
 
