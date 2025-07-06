@@ -1,16 +1,19 @@
-import { Badge } from "../ui/badge";
+import EncryptionSection from "./configs/EncryptionSection";
+import OpenLimitSection from "./configs/OpenLimitSection";
 
 export default function ConfigSection() {
   return (
-    <div>
-      <h1>Configuration</h1>
-      <div className="flex items-center justify-between text-sm text-muted-foreground">
-        <span>Encryption</span>
-        <Badge variant="outline">AES-GCM</Badge>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-base font-medium">Configuration</h2>
       </div>
-      <div className="flex items-center justify-between text-sm text-muted-foreground">
-        Open Limit
-        <Badge variant={"outline"}>5 minutes</Badge>
+
+      <div className="space-y-2">
+        {/* <ConfigItem label="Encryption" value="AES-GCM" />
+        <ConfigItem label="Open Limit" value="1" />
+        <ConfigItem label="Expiry" value="24 hours" /> */}
+        <EncryptionSection />
+        <OpenLimitSection />
       </div>
     </div>
   );

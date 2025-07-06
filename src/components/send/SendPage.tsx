@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import {
   Card,
@@ -12,8 +12,11 @@ import { Textarea } from "../ui/textarea";
 import { Separator } from "../ui/separator";
 import ConfigSection from "./ConfigSection";
 import LinkGenerator from "./LinkGenerator";
+import useMessageStore from "@/lib/useMessageStore";
 
 export default function SendPage() {
+  const { content, updateContent } = useMessageStore();
+
   return (
     <div className="max-w-3xl mx-auto p-6">
       <Card className="shadow-xl rounded-2xl border border-muted">
@@ -40,6 +43,8 @@ export default function SendPage() {
               className="resize-none focus-visible:ring-1 focus-visible:ring-ring h-64 overflow-auto"
               placeholder="Type your secure message..."
               autoFocus
+              value={content}
+              onChange={(e) => updateContent(e.target.value)}
             />
           </div>
           <div>

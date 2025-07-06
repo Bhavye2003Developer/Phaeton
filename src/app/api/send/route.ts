@@ -3,9 +3,17 @@ import { PrismaClient } from "../../../../generated/prisma";
 
 const primsa = new PrismaClient();
 
-export function POST(req: NextRequest) {
-  const data = req.body;
-  console.log(data);
+export async function POST(req: NextRequest) {
+  const data = await req.json();
+  const content = data.content;
+  console.log(content);
+
+  await primsa.message.create({
+    data: {
+      content: content,
+    },
+  });
+
   return NextResponse.json({
     status: 200,
   });

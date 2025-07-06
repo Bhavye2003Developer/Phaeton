@@ -10,6 +10,9 @@ export default function LinkGenerator() {
 
     fetch(SEND_API, {
       method: "POST",
+      body: JSON.stringify({
+        content: "Hello bhavye",
+      }),
     });
   };
 
