@@ -1,14 +1,5 @@
 import { create } from "zustand";
-
-export enum Encryption {
-  "AES-GCM" = "AES-GCM",
-  "XChaCha20" = "XChaCha20",
-}
-
-interface ConfigState {
-  encryption: Encryption;
-  openLimit: number;
-}
+import { ConfigState, Encryption } from "./types";
 
 interface MessageState {
   content: string;

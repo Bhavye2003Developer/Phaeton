@@ -5,7 +5,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useMessageStore, { Encryption } from "@/lib/useMessageStore";
+import { Encryption } from "@/lib/types";
+import useMessageStore from "@/lib/useMessageStore";
 
 export default function EncryptionSection() {
   const {
