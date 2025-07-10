@@ -7,6 +7,7 @@ interface MessageState {
   updateContent: (updatedContent: string) => void;
   updateEncryption: (encryption: Encryption) => void;
   updateOpenLimit: (limit: number) => void;
+  updateBurnTime: (burnLimit: number) => void;
 }
 
 const useMessageStore = create<MessageState>((set, get) => ({
@@ -14,6 +15,7 @@ const useMessageStore = create<MessageState>((set, get) => ({
   config: {
     encryption: Encryption["AES-GCM"],
     openLimit: 5,
+    burnTime: 10,
   },
   updateContent: (updatedContent) => {
     set(() => ({ content: updatedContent }));
@@ -24,6 +26,9 @@ const useMessageStore = create<MessageState>((set, get) => ({
   updateOpenLimit: (limit) => {
     console.log("Inside upateopenlimit: ", limit);
     set((state) => ({ config: { ...state.config, openLimit: limit } }));
+  },
+  updateBurnTime: (burnLimit) => {
+    set((state) => ({ config: { ...state.config, burnTime: burnLimit } }));
   },
 }));
 

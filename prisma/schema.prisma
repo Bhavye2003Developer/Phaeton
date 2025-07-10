@@ -20,4 +20,5 @@ model Config {
   message    Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
   encryption String
   openLimit  Int
+  burnTime   Int
 }

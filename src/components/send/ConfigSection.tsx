@@ -1,3 +1,4 @@
+import BurnTimerSection from "./configs/BurnTimerSection";
 import EncryptionSection from "./configs/EncryptionSection";
 import OpenLimitSection from "./configs/OpenLimitSection";
 
@@ -14,6 +15,7 @@ export default function ConfigSection() {
         <ConfigItem label="Expiry" value="24 hours" /> */}
         <EncryptionSection />
         <OpenLimitSection />
+        <BurnTimerSection />
       </div>
     </div>
   );

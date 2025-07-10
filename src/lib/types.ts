@@ -6,6 +6,7 @@ export enum Encryption {
 export interface ConfigState {
   encryption: Encryption;
   openLimit: number;
+  burnTime: number;
 }
 
 export interface MessageData {
