@@ -22,7 +22,7 @@ export default function PasswordModal({
   isOpen: boolean;
   passwordData: Password;
   toggleOpenPasswordModal: () => void;
-  userUnlocked: () => void;
+  userUnlocked: (password: string) => void;
 }) {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -50,9 +50,10 @@ export default function PasswordModal({
 
     try {
       const isPasswordValid = await checkPassword(password, passwordData.value);
+      console.log("Is Password Valid: ", isPasswordValid);
       if (isPasswordValid) {
         toggleOpenPasswordModal();
-        userUnlocked();
+        userUnlocked(password);
       } else {
         setPassword("");
         setError(true);

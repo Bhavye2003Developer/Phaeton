@@ -14,7 +14,22 @@ import {
   CheckCircle2,
   AlertTriangle,
   FileText,
+  Search,
+  ArrowLeft,
+  RefreshCw,
+  Wifi,
+  WifiOff,
 } from "lucide-react";
+import { formatTime } from "@/lib/utils";
+import { toast } from "sonner";
+
+type LoadingState =
+  | "idle"
+  | "loading"
+  | "success"
+  | "not_found"
+  | "error"
+  | "network_error";
 
 export default function ViewPage({ messageId }: { messageId: string }) {
   const [messageData, setMessageData] = useState<MessageData | null>(null);
@@ -26,6 +41,9 @@ export default function ViewPage({ messageId }: { messageId: string }) {
   const [decryptedText, setDecryptedText] = useState("");
   const [isDecrypting, setIsDecrypting] = useState(false);
   const [passwordRefused, setPasswordRefused] = useState(false);
+  const [originalPassword, setOriginalPassword] = useState("");
+  const [loadingState, setLoadingState] = useState<LoadingState>("loading");
+  const [retryCount, setRetryCount] = useState(0);
 
   const initiateBurnTimer = (initial: number) => {
     setBurnTime(initial);
@@ -48,12 +66,24 @@ export default function ViewPage({ messageId }: { messageId: string }) {
 
   const fetchMessage = async () => {
     try {
+      setLoadingState("loading");
       const request = await fetch(`/api/view?message_id=${messageId}`);
       const response = await request.json();
-      if (response.status !== 200) return;
+
+      if (response.status === 404) {
+        setLoadingState("not_found");
+        return;
+      }
+
+      if (response.status !== 200) {
+        setLoadingState("error");
+        toast.error("Failed to load message");
+        return;
+      }
 
       const data: MessageData = response.data;
       setMessageData(data);
+      setLoadingState("success");
 
       if (data.config.password.isEnabled) {
         setIsPasswordModalOpen(true);
@@ -62,7 +92,13 @@ export default function ViewPage({ messageId }: { messageId: string }) {
       }
     } catch (err) {
       console.error("Failed to fetch message:", err);
+      setLoadingState("network_error");
     }
+  };
+
+  const handleRetry = () => {
+    setRetryCount((prev) => prev + 1);
+    fetchMessage();
   };
 
   useEffect(() => {
@@ -74,13 +110,15 @@ export default function ViewPage({ messageId }: { messageId: string }) {
     setIsDecrypting(true);
 
     try {
+      console.log("Inside decryption...", messageData);
       const messageUint = new Uint8Array(
         Object.values(messageData.contentBytes)
       );
       const decrypted = await decryptMessage(
         messageUint.buffer,
-        messageData.config.password.value
+        originalPassword
       );
+      console.log("Decryption: ", decrypted);
       setDecryptedText(decrypted);
       initiateBurnTimer(messageData.config.burnTime);
     } catch {
@@ -103,12 +141,6 @@ export default function ViewPage({ messageId }: { messageId: string }) {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
-
   const getTimeColor = () => {
     if (!burnTime) return "text-green-400";
     if (burnTime > 60) return "text-green-400";
@@ -116,8 +148,137 @@ export default function ViewPage({ messageId }: { messageId: string }) {
     return "text-red-400";
   };
 
+  const renderNotFoundState = () => (
+    <div className="flex-1 flex items-center justify-center">
+      <div className="text-center p-8 max-w-md">
+        <div className="relative mb-6">
+          <div className="w-20 h-20 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <Search className="w-10 h-10 text-slate-400 dark:text-slate-500" />
+          </div>
+          <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-red-400 to-red-500 rounded-full flex items-center justify-center shadow-lg">
+            <span className="text-white text-xs font-bold">!</span>
+          </div>
+        </div>
+
+        <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-3">
+          Message Not Found
+        </h3>
+
+        <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+          The message you're looking for doesn't exist or may have already
+          expired. This could happen if the message was burned or the link is
+          incorrect.
+        </p>
+
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl border border-slate-200 dark:border-slate-700">
+            <AlertTriangle className="w-4 h-4" />
+            <span className="text-sm font-medium">
+              Message ID: {messageId.slice(0, 8)}...
+            </span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-2 justify-center">
+            <button
+              onClick={handleRetry}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-colors duration-200 font-medium"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Try Again
+            </button>
+
+            <button
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-xl transition-colors duration-200 font-medium"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderNetworkErrorState = () => (
+    <div className="flex-1 flex items-center justify-center">
+      <div className="text-center p-8 max-w-md">
+        <div className="w-20 h-20 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/20 dark:to-red-800/20 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <WifiOff className="w-10 h-10 text-red-500 dark:text-red-400" />
+        </div>
+
+        <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-3">
+          Connection Error
+        </h3>
+
+        <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+          We're having trouble connecting to our servers. Please check your
+          internet connection and try again.
+        </p>
+
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-xl border border-red-200 dark:border-red-800">
+            <Wifi className="w-4 h-4" />
+            <span className="text-sm font-medium">Retry #{retryCount}</span>
+          </div>
+
+          <button
+            onClick={handleRetry}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-colors duration-200 font-medium shadow-lg hover:shadow-xl"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Retry Connection
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderLoadingState = () => (
+    <div className="flex flex-col items-center justify-center space-y-6 flex-1">
+      <div className="relative">
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 shadow-lg"></div>
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur animate-pulse"></div>
+      </div>
+      <div className="text-center">
+        <p className="text-slate-700 dark:text-slate-200 text-lg font-medium animate-pulse">
+          Loading secure message...
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderGenericErrorState = () => (
+    <div className="flex-1 flex items-center justify-center">
+      <div className="text-center p-8 max-w-md">
+        <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/20 dark:to-orange-800/20 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <AlertTriangle className="w-10 h-10 text-orange-500 dark:text-orange-400" />
+        </div>
+
+        <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-3">
+          Something Went Wrong
+        </h3>
+
+        <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+          We encountered an unexpected error while trying to load your message.
+          Please try again in a moment.
+        </p>
+
+        <div className="space-y-3">
+          <button
+            onClick={handleRetry}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl transition-colors duration-200 font-medium shadow-lg hover:shadow-xl"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center p-2 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
@@ -129,9 +290,10 @@ export default function ViewPage({ messageId }: { messageId: string }) {
           isOpen={isPasswordModalOpen}
           passwordData={messageData.config.password}
           toggleOpenPasswordModal={handleCloseModal}
-          userUnlocked={() => {
+          userUnlocked={(password: string) => {
             setPasswordRefused(false);
             setHasUserUnlocked(true);
+            setOriginalPassword(password);
           }}
         />
       )}
@@ -151,13 +313,23 @@ export default function ViewPage({ messageId }: { messageId: string }) {
                 <div>
                   <h2 className="text-2xl font-bold mb-1 flex items-center gap-2">
                     Secure Message
-                    <div className="flex items-center gap-1 px-2 py-1 bg-white/20 rounded-full text-xs">
-                      <CheckCircle2 className="w-3 h-3" />
-                      <span>Protected</span>
-                    </div>
+                    {loadingState === "success" && (
+                      <div className="flex items-center gap-1 px-2 py-1 bg-white/20 rounded-full text-xs">
+                        <CheckCircle2 className="w-3 h-3" />
+                        <span>Protected</span>
+                      </div>
+                    )}
                   </h2>
                   <p className="text-blue-100 text-sm opacity-90">
-                    Password protected message with view limitations
+                    {loadingState === "loading" &&
+                      "Connecting to secure server..."}
+                    {loadingState === "success" &&
+                      "Password protected message with view limitations"}
+                    {loadingState === "not_found" &&
+                      "Message could not be located"}
+                    {loadingState === "network_error" &&
+                      "Connection issues detected"}
+                    {loadingState === "error" && "Server error encountered"}
                   </p>
                 </div>
               </div>
@@ -187,7 +359,12 @@ export default function ViewPage({ messageId }: { messageId: string }) {
           </div>
 
           <div className="p-8 min-h-[50vh] flex flex-col relative">
-            {isDecrypting && (
+            {loadingState === "loading" && renderLoadingState()}
+            {loadingState === "not_found" && renderNotFoundState()}
+            {loadingState === "network_error" && renderNetworkErrorState()}
+            {loadingState === "error" && renderGenericErrorState()}
+
+            {loadingState === "success" && isDecrypting && (
               <div className="flex flex-col items-center justify-center space-y-6 flex-1">
                 <div className="relative">
                   <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 shadow-lg"></div>
@@ -195,7 +372,7 @@ export default function ViewPage({ messageId }: { messageId: string }) {
                 </div>
                 <div className="text-center">
                   <p className="text-slate-700 dark:text-slate-200 text-lg font-medium animate-pulse">
-                    Loading your message...
+                    Decrypting your message...
                   </p>
                   <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
                     Please wait while we retrieve your content
@@ -210,7 +387,7 @@ export default function ViewPage({ messageId }: { messageId: string }) {
               </div>
             )}
 
-            {!isDecrypting && decryptedText && (
+            {loadingState === "success" && !isDecrypting && decryptedText && (
               <div className="flex-1 flex flex-col">
                 <div className="flex items-center gap-2 mb-4">
                   <FileText className="w-5 h-5 text-slate-600 dark:text-slate-400" />
@@ -243,7 +420,7 @@ export default function ViewPage({ messageId }: { messageId: string }) {
               </div>
             )}
 
-            {passwordRefused && (
+            {loadingState === "success" && passwordRefused && (
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-center p-8 max-w-md">
                   <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/20 dark:to-red-800/20 rounded-2xl flex items-center justify-center mx-auto mb-4">

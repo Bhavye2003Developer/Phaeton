@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Select,
   SelectContent,
@@ -8,6 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useMessageStore from "@/lib/useMessageStore";
+import { CheckCircle2, Users } from "lucide-react";
 import { useMemo } from "react";
 
 export default function OpenLimitSection() {
@@ -20,11 +19,16 @@ export default function OpenLimitSection() {
   const selectedLimit = openLimit === 10e5 ? "NA" : String(openLimit);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-muted-foreground">
-          Open Limit
-        </span>
+        <div className="flex items-center gap-2">
+          <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
+            <Users className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+          </div>
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+            Open Limit
+          </span>
+        </div>
         <Select
           value={selectedLimit}
           onValueChange={(val) => {
@@ -32,7 +36,7 @@ export default function OpenLimitSection() {
             updateOpenLimit(numeric);
           }}
         >
-          <SelectTrigger className="w-28 rounded-md border border-input shadow-sm focus:ring-1 focus:ring-ring">
+          <SelectTrigger className="w-32 rounded-lg border border-blue-200 dark:border-blue-700 shadow-sm focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
@@ -44,10 +48,13 @@ export default function OpenLimitSection() {
           </SelectContent>
         </Select>
       </div>
-      <p className="text-xs text-muted-foreground text-right">
-        Number of times this message can be opened. Select "No Limit" to allow
-        unlimited views.
-      </p>
+      <div className="flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400">
+        <CheckCircle2 className="w-3 h-3" />
+        <span>
+          Number of times this message can be opened. Select "No Limit" to allow
+          unlimited views.
+        </span>
+      </div>
     </div>
   );
 }

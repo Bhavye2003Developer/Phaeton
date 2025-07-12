@@ -1,34 +1,30 @@
 import { ConfigState, Encryption } from "./types";
-import { toast } from "sonner";
 
 const enc = new TextEncoder();
 const dec = new TextDecoder("utf-8");
+
+const DEFAULT_PASSWORD = "0000xx1234";
 
 export async function SafeContentAndConfig(
   content: string,
   config: ConfigState
 ) {
   const safeConfig = structuredClone(config);
-  if (safeConfig.password.isEnabled) {
-    if (safeConfig.password.value.trim() === "") {
-      toast.error("Password can't be empty!");
-      safeConfig.password.isEnabled = false;
-    } else
-      safeConfig.password.value = await hashContent(safeConfig.password.value);
-  }
-  const safeContent = await encryptMessage(
-    content,
-    safeConfig.password.isEnabled ? safeConfig.password.value : "0000xx1234"
-  );
+
+  const password =
+    safeConfig.password.isEnabled && safeConfig.password.value.trim() !== ""
+      ? safeConfig.password.value
+      : DEFAULT_PASSWORD;
+
+  console.log("Setting password: ", password);
+
+  const safeContent = await encryptMessage(content, password);
+
+  if (safeConfig.password.isEnabled)
+    safeConfig.password.value = await hashContent(password);
+  else safeConfig.password.value = "";
 
   const messageBytes = new Uint8Array(safeContent);
-  //   console.log("Encrypted: ", safeContent);
-
-  //   const dc = await decryptMessage(
-  //     safeContent,
-  //     safeConfig.password.isEnabled ? safeConfig.password.value : "0000xx1234"
-  //   );
-  //   console.log("Decrypted: ", dec.decode(dc));
 
   return { messageBytes, safeConfig };
 }
@@ -79,8 +75,10 @@ async function encryptMessage(message: string, password: string) {
 
 export async function decryptMessage(
   cipherText: ArrayBuffer,
-  password: string
+  MessagePassword: string
 ) {
+  let password = MessagePassword;
+  if (password === "") password = DEFAULT_PASSWORD;
   const iv = enc.encode(password);
   const cryptoKey = await generateKey(password, "decrypt");
   const decryptedMessageBuffer = await crypto.subtle.decrypt(

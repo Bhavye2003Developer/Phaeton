@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
     }
   }
   return NextResponse.json({
-    status: Object.keys(data).length < 1 ? 400 : 200,
+    status: Object.keys(data).length < 1 ? 404 : 200,
     data: data,
   });
 }
