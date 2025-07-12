@@ -9,16 +9,23 @@ datasource db {
 }
 
 model Message {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  content String
-  config  Config?
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  contentBytes Bytes
+  config       Config?
 }
 
 model Config {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  messageId  String  @unique @db.ObjectId
-  message    Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  messageId  String   @unique @db.ObjectId
+  message    Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
   encryption String
   openLimit  Int
   burnTime   Int
+  password   Password
+}
+
+type Password {
+  isEnabled Boolean
+  type      Int
+  value     String
 }

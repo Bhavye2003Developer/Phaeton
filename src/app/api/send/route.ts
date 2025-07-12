@@ -5,14 +5,22 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  console.log(data);
+  // console.log(data);
+
+  const messageBytes = data.messageBytes;
+
+  const contentBytes = Uint8Array.from(
+    Object.keys(messageBytes).map((index) => messageBytes[index])
+  );
+  const config = data.config;
+  // console.log("messageBytes: ", messageBytes, typeof messageBytes, bytes);
 
   const transaction = await prisma.message.create({
     data: {
-      content: data.content,
+      contentBytes: contentBytes,
       config: {
         create: {
-          ...data.config,
+          ...config,
         },
       },
     },

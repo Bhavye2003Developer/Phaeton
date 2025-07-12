@@ -4,6 +4,7 @@ import useMessageStore from "@/lib/useMessageStore";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { useCallback, useState } from "react";
+import { SafeContentAndConfig } from "@/lib/cryptolib";
 
 const SEND_API = "/api/send";
 
@@ -12,16 +13,21 @@ export default function LinkGenerator() {
   const [link, setLink] = useState("");
 
   const generateLink = useCallback(async () => {
-    console.log("Generating link...", content);
+    console.log("Generating link...", content, config);
 
     if (content.trim() === "")
       return toast.error("You can't send empty message!");
 
+    const { messageBytes, safeConfig } = await SafeContentAndConfig(
+      content,
+      config
+    );
+
     const request = await fetch(SEND_API, {
       method: "POST",
       body: JSON.stringify({
-        content: content,
-        config,
+        messageBytes: messageBytes,
+        config: safeConfig,
       }),
     });
     const response = await request.json();

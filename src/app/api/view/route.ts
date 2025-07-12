@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
       },
       select: {
         id: true,
-        content: true,
+        contentBytes: true,
         config: true,
       },
     });

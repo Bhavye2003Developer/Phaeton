@@ -1,6 +1,7 @@
 import BurnTimerSection from "./configs/BurnTimerSection";
 import EncryptionSection from "./configs/EncryptionSection";
 import OpenLimitSection from "./configs/OpenLimitSection";
+import PasswordSection from "./configs/PasswordSection";
 
 export default function ConfigSection() {
   return (
@@ -10,12 +11,10 @@ export default function ConfigSection() {
       </div>
 
       <div className="space-y-2">
-        {/* <ConfigItem label="Encryption" value="AES-GCM" />
-        <ConfigItem label="Open Limit" value="1" />
-        <ConfigItem label="Expiry" value="24 hours" /> */}
-        <EncryptionSection />
+        {/* <EncryptionSection /> */}
         <OpenLimitSection />
         <BurnTimerSection />
+        <PasswordSection />
       </div>
     </div>
   );

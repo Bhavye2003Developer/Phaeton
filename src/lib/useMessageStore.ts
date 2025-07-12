@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ConfigState, Encryption } from "./types";
+import { ConfigState, Encryption, PasswordType } from "./types";
 
 interface MessageState {
   content: string;
@@ -8,6 +8,11 @@ interface MessageState {
   updateEncryption: (encryption: Encryption) => void;
   updateOpenLimit: (limit: number) => void;
   updateBurnTime: (burnLimit: number) => void;
+  updatePasswordConfig: (passwordConfig: {
+    isEnabled: boolean;
+    type: PasswordType;
+    value: string;
+  }) => void;
 }
 
 const useMessageStore = create<MessageState>((set, get) => ({
@@ -16,6 +21,11 @@ const useMessageStore = create<MessageState>((set, get) => ({
     encryption: Encryption["AES-GCM"],
     openLimit: 5,
     burnTime: 10,
+    password: {
+      isEnabled: false,
+      type: PasswordType.text,
+      value: "",
+    },
   },
   updateContent: (updatedContent) => {
     set(() => ({ content: updatedContent }));
@@ -29,6 +39,9 @@ const useMessageStore = create<MessageState>((set, get) => ({
   },
   updateBurnTime: (burnLimit) => {
     set((state) => ({ config: { ...state.config, burnTime: burnLimit } }));
+  },
+  updatePasswordConfig: (passwordConfig) => {
+    set((state) => ({ config: { ...state.config, password: passwordConfig } }));
   },
 }));
 
