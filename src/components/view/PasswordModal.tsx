@@ -50,7 +50,6 @@ export default function PasswordModal({
 
     try {
       const isPasswordValid = await checkPassword(password, passwordData.value);
-      console.log("Is Password Valid: ", isPasswordValid);
       if (isPasswordValid) {
         toggleOpenPasswordModal();
         userUnlocked(password);
@@ -77,36 +76,32 @@ export default function PasswordModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={toggleOpenPasswordModal}>
-      <DialogContent className="sm:max-w-md border-0 shadow-2xl rounded-3xl bg-white dark:bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 opacity-60">
-          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-pulse"></div>
-          <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
-        </div>
+      <DialogContent className="sm:max-w-md shadow-2xl rounded-3xl bg-black/[0.96] overflow-hidden border border-zinc-700/50">
+        {/* Background gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/8 via-purple-500/8 to-pink-500/8" />
 
-        <div className="relative z-10">
+        <div className="relative z-10 p-6">
           <DialogHeader className="text-center pb-6 pt-2">
-            <div className="mx-auto mb-6 relative">
-              <div className="p-4 bg-gradient-to-br from-blue-500 via-purple-600 to-pink-600 rounded-2xl w-fit mx-auto shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 rounded-2xl blur opacity-75 animate-pulse"></div>
-                <Lock className="w-7 h-7 text-white relative z-10" />
-              </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full animate-bounce delay-500">
-                <Sparkles className="w-2.5 h-2.5 text-white m-0.5" />
+            {/* Lock icon with improved styling */}
+            <div className="mx-auto mb-6 relative w-fit">
+              <div className="p-4 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-2xl shadow-lg relative overflow-hidden">
+                <Lock className="w-7 h-7 text-white z-10 relative" />
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-md animate-pulse" />
               </div>
             </div>
 
-            <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 dark:from-slate-100 dark:via-slate-200 dark:to-slate-100 bg-clip-text text-transparent">
+            <DialogTitle className="text-xl font-semibold text-white mb-2">
               Secure Access Required
             </DialogTitle>
-            <p className="text-slate-600 dark:text-slate-400 text-sm mt-3 max-w-xs mx-auto leading-relaxed">
-              This content is protected with end-to-end encryption. Enter your
-              password to decrypt and view the message.
+            <p className="text-sm text-zinc-400 max-w-xs mx-auto leading-relaxed">
+              Enter your password to decrypt and unlock the protected message.
             </p>
           </DialogHeader>
 
-          <div className="space-y-6 pt-2">
+          <div className="space-y-6">
+            {/* Password input with better contrast */}
             <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-purple-400/5 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
               <div className="relative">
                 <Input
                   ref={inputRef}
@@ -133,21 +128,20 @@ export default function PasswordModal({
                   onKeyDown={handleKeyDown}
                   placeholder={
                     passwordData.type === PasswordType.number
-                      ? "Enter your numeric passcode"
-                      : "Enter your password"
+                      ? "Enter numeric passcode"
+                      : "Enter password"
                   }
-                  className={`pr-14 h-14 rounded-2xl border-2 text-base transition-all duration-300 backdrop-blur-sm font-medium ${
+                  className={`pr-12 h-12 rounded-xl border-2 font-medium backdrop-blur-sm text-base transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 focus:outline-none placeholder:text-zinc-500 ${
                     error
-                      ? "border-red-300 focus:border-red-500 bg-red-50/80 dark:bg-red-900/20 shake"
-                      : "border-slate-200 focus:border-purple-500 dark:border-slate-700 dark:focus:border-purple-400 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800"
-                  } focus:shadow-lg focus:scale-[1.02] hover:shadow-md`}
+                      ? "border-red-400/60 bg-red-950/30 text-red-200 animate-shake"
+                      : "border-zinc-600/50 bg-zinc-800/40 text-white hover:border-purple-500/60 focus:border-purple-500/80"
+                  }`}
                   disabled={isLoading}
                 />
-
                 <button
                   type="button"
                   onClick={() => setShow((prev) => !prev)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-5 text-slate-400 hover:text-purple-600 dark:text-slate-500 dark:hover:text-purple-400 transition-all duration-200 hover:scale-110"
+                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-zinc-400 hover:text-purple-400 transition-colors duration-200"
                   disabled={isLoading}
                 >
                   {show ? (
@@ -159,39 +153,41 @@ export default function PasswordModal({
               </div>
             </div>
 
+            {/* Error message with better contrast */}
             {error && (
-              <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 border border-red-200 dark:border-red-800 rounded-2xl animate-shake">
-                <div className="flex-shrink-0 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+              <div className="flex items-center gap-3 p-3 bg-red-950/50 border border-red-700/50 rounded-xl animate-shake backdrop-blur-sm">
+                <div className="w-8 h-8 bg-red-500/90 rounded-full flex items-center justify-center flex-shrink-0">
                   <AlertCircle className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-red-800 dark:text-red-200">
+                  <p className="text-sm font-medium text-red-200">
                     Access Denied
                   </p>
-                  <p className="text-xs text-red-600 dark:text-red-400">
-                    The password you entered is incorrect. Please try again.
+                  <p className="text-xs text-red-300/80">
+                    Incorrect password. Please try again.
                   </p>
                 </div>
               </div>
             )}
 
-            <div className="flex gap-4 pt-4">
+            {/* Buttons with improved styling */}
+            <div className="flex gap-4 pt-2">
               <Button
                 variant="outline"
                 onClick={toggleOpenPasswordModal}
-                className="flex-1 h-12 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-200 font-medium"
+                className="flex-1 h-11 rounded-xl border border-zinc-600/50 text-zinc-200 hover:bg-zinc-800/50 hover:border-zinc-500/50 hover:text-white transition-all duration-200"
                 disabled={isLoading}
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleSubmit}
-                className="flex-1 h-12 rounded-2xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-medium"
+                className="flex-1 h-11 rounded-xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                 disabled={isLoading || !password.trim()}
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <div className="animate-spin h-4 w-4 border-b-2 border-white rounded-full" />
                     <span>Verifying...</span>
                   </div>
                 ) : (
@@ -203,9 +199,10 @@ export default function PasswordModal({
               </Button>
             </div>
 
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400 pt-2">
+            {/* Footer with better contrast */}
+            <div className="text-center text-xs text-zinc-500 pt-2 flex items-center justify-center gap-1">
               <Shield className="w-3 h-3" />
-              <span>Protected with AES-256 encryption</span>
+              <span>AES-CGM Encrypted</span>
             </div>
           </div>
         </div>
@@ -224,10 +221,7 @@ export default function PasswordModal({
             }
           }
           .animate-shake {
-            animation: shake 0.5s ease-in-out;
-          }
-          .shake {
-            animation: shake 0.5s ease-in-out;
+            animation: shake 0.4s ease-in-out;
           }
         `}</style>
       </DialogContent>

@@ -19,15 +19,11 @@ export default function BurnTimerSection() {
   const selectedTime = burnTime === 10e5 ? "NA" : String(burnTime);
 
   return (
-    <div className="space-y-3 p-4 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+    <div className="space-y-3 p-4 rounded-xl border border-[#404040] bg-black/[0.96] transition-all duration-300">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="p-2 bg-orange-100 dark:bg-orange-900/40 rounded-lg">
-            <Timer className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-          </div>
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-            Burn Time
-          </span>
+        <div className="flex items-center gap-2 text-neutral-300">
+          <Timer className="w-4 h-4" />
+          <span className="text-sm font-medium">Burn Timer</span>
         </div>
         <Select
           value={selectedTime}
@@ -36,10 +32,10 @@ export default function BurnTimerSection() {
             updateBurnTime(numeric);
           }}
         >
-          <SelectTrigger className="w-32 rounded-lg border border-orange-200 dark:border-orange-700 shadow-sm focus:ring-2 focus:ring-orange-500 bg-white dark:bg-slate-800">
+          <SelectTrigger className="w-28 bg-black/[0.96] border border-[#404040] text-white rounded-lg">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-black/[0.96]">
             {burnLimits.map((v) => (
               <SelectItem key={v} value={String(v)}>
                 {v === "NA" ? "No Limit" : `${v}s`}
@@ -48,15 +44,12 @@ export default function BurnTimerSection() {
           </SelectContent>
         </Select>
       </div>
-      <div className="flex items-center gap-2 text-xs text-orange-600 dark:text-orange-400">
-        <Clock className="w-3 h-3" />
-        <span>
-          {burnTime === 10e5
-            ? ""
-            : `Message will self-destruct after ${burnTime} seconds`}
-          {/* {formatTime(burnTime === 10e5 ? "NA" : burnTime)} once viewed. */}
-        </span>
-      </div>
+      {burnTime !== 10e5 && (
+        <div className="flex items-center gap-2 text-xs text-neutral-400">
+          <Clock className="w-3 h-3" />
+          <span>Message self-destructs after {burnTime} seconds</span>
+        </div>
+      )}
     </div>
   );
 }

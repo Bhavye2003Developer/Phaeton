@@ -77,16 +77,19 @@ export async function decryptMessage(
   cipherText: ArrayBuffer,
   MessagePassword: string
 ) {
-  let password = MessagePassword;
-  if (password === "") password = DEFAULT_PASSWORD;
+  const password = MessagePassword !== "" ? MessagePassword : DEFAULT_PASSWORD;
+
   const iv = enc.encode(password);
   const cryptoKey = await generateKey(password, "decrypt");
+  console.log("About to decrypt it, with password: ", password, iv, cryptoKey);
   const decryptedMessageBuffer = await crypto.subtle.decrypt(
     { name: Encryption["AES-GCM"], iv },
     cryptoKey,
     cipherText
   );
+  console.log("Decrypt messageBuffer: ", decryptedMessageBuffer);
   const message = dec.decode(decryptedMessageBuffer);
+  console.log("Message: ", message);
   return message;
 }
 
