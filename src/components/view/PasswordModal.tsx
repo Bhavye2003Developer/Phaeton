@@ -77,12 +77,10 @@ export default function PasswordModal({
   return (
     <Dialog open={isOpen} onOpenChange={toggleOpenPasswordModal}>
       <DialogContent className="sm:max-w-md shadow-2xl rounded-3xl bg-black/[0.96] overflow-hidden border border-zinc-700/50">
-        {/* Background gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/8 via-purple-500/8 to-pink-500/8" />
 
         <div className="relative z-10 p-6">
           <DialogHeader className="text-center pb-6 pt-2">
-            {/* Lock icon with improved styling */}
             <div className="mx-auto mb-6 relative w-fit">
               <div className="p-4 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-2xl shadow-lg relative overflow-hidden">
                 <Lock className="w-7 h-7 text-white z-10 relative" />
@@ -99,7 +97,6 @@ export default function PasswordModal({
           </DialogHeader>
 
           <div className="space-y-6">
-            {/* Password input with better contrast */}
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-purple-400/5 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
               <div className="relative">
@@ -153,7 +150,6 @@ export default function PasswordModal({
               </div>
             </div>
 
-            {/* Error message with better contrast */}
             {error && (
               <div className="flex items-center gap-3 p-3 bg-red-950/50 border border-red-700/50 rounded-xl animate-shake backdrop-blur-sm">
                 <div className="w-8 h-8 bg-red-500/90 rounded-full flex items-center justify-center flex-shrink-0">
@@ -170,7 +166,6 @@ export default function PasswordModal({
               </div>
             )}
 
-            {/* Buttons with improved styling */}
             <div className="flex gap-4 pt-2">
               <Button
                 variant="outline"
@@ -199,7 +194,6 @@ export default function PasswordModal({
               </Button>
             </div>
 
-            {/* Footer with better contrast */}
             <div className="text-center text-xs text-zinc-500 pt-2 flex items-center justify-center gap-1">
               <Shield className="w-3 h-3" />
               <span>AES-CGM Encrypted</span>

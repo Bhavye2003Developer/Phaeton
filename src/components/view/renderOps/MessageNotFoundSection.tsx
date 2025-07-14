@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowLeft, RefreshCw, Search } from "lucide-react";
+import { AlertTriangle, Search } from "lucide-react";
 
 export default function MessageNotFoundSection({
   messageId,

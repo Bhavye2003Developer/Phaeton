@@ -21,6 +21,7 @@ import Loader from "./renderOps/Loader";
 import MessageNotFoundSection from "./renderOps/MessageNotFoundSection";
 import NetworkErrorSection from "./renderOps/NetworkErrorSection";
 import GenericErrorSection from "./renderOps/GenericErrorSection";
+import { VIEW_API } from "@/lib/constants";
 
 type LoadingState =
   | "idle"
@@ -42,7 +43,6 @@ export default function ViewPage({ messageId }: { messageId: string }) {
   const [passwordRefused, setPasswordRefused] = useState(false);
   const [originalPassword, setOriginalPassword] = useState("");
   const [loadingState, setLoadingState] = useState<LoadingState>("loading");
-  const [retryCount, setRetryCount] = useState(0);
 
   const initiateBurnTimer = (initial: number) => {
     setBurnTime(initial);
@@ -66,7 +66,7 @@ export default function ViewPage({ messageId }: { messageId: string }) {
   const fetchMessage = async () => {
     try {
       setLoadingState("loading");
-      const request = await fetch(`/api/view?message_id=${messageId}`);
+      const request = await fetch(`${VIEW_API}?message_id=${messageId}`);
       const response = await request.json();
 
       if (response.status === 404) {
@@ -108,14 +108,14 @@ export default function ViewPage({ messageId }: { messageId: string }) {
       const messageUint = new Uint8Array(
         Object.values(messageData.contentBytes)
       );
-      // console.log("messageuint: ", messageUint);
       const decrypted = await decryptMessage(
         messageUint.buffer,
         originalPassword
       );
       console.log("Decryption: ", decrypted);
       setDecryptedText(decrypted);
-      initiateBurnTimer(messageData.config.burnTime);
+      if (messageData.config.burnTime !== 10e5)
+        initiateBurnTimer(messageData.config.burnTime);
     } catch (err) {
       setDecryptedText("Failed to decrypt message.");
       console.log("Errror: ", err);
@@ -333,25 +333,6 @@ export default function ViewPage({ messageId }: { messageId: string }) {
                         ? "View Limit Reached"
                         : "Burn Timer Expired"}
                     </span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {decryptedText && !isBurned && (
-              <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
-                <div className="flex items-center justify-center gap-6 text-xs text-slate-500 dark:text-slate-400">
-                  <div className="flex items-center gap-1">
-                    <Shield className="w-3 h-3" />
-                    <span>Secure Access</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    <span>Time Limited</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" />
-                    <span>Authenticated</span>
                   </div>
                 </div>
               </div>

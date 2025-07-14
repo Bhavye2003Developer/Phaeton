@@ -1,14 +1,12 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Shield, Flame, Lock, Timer, Share, Key, Github } from "lucide-react";
-import { BackgroundBeams } from "@/components/ui/background-beams";
+import { Shield, Flame, Lock, Timer, Share, Key } from "lucide-react";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { SparklesCore } from "@/components/ui/sparkles";
-import { FloatingNav } from "@/components/ui/floating-navbar";
 import { motion } from "framer-motion";
+import { REPO_LINK } from "@/lib/constants";
+import { RiGithubLine } from "react-icons/ri";
 
 const features = [
   {
@@ -96,17 +94,13 @@ export default function Home() {
               Send a Secret
             </Button>
           </Link>
-          <Link
-            href="https://github.com/Bhavye2003Developer/Himitsu.git"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href={REPO_LINK} target="_blank" rel="noopener noreferrer">
             <Button
               variant="outline"
               size="lg"
               className="border-neutral-700 text-neutral-300 hover:bg-neutral-800 hover:text-white font-semibold px-8 py-3 rounded-full transition-all duration-300 flex items-center gap-2"
             >
-              <Github className="w-5 h-5" />
+              <RiGithubLine className="w-5 h-5" />
               View on GitHub
             </Button>
           </Link>
@@ -135,12 +129,12 @@ export default function Home() {
         <p>Made with 🕊️ in privacy. No logs. No metadata.</p>
         <p>
           <Link
-            href="https://github.com/Bhavye2003Developer/Himitsu.git"
+            href={REPO_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="text-indigo-400 hover:text-indigo-300 transition-colors duration-200 inline-flex items-center gap-1"
           >
-            <Github className="w-4 h-4" />
+            <RiGithubLine className="w-4 h-4" />
             Open Source on GitHub
           </Link>
         </p>
@@ -149,26 +143,26 @@ export default function Home() {
   );
 }
 
-function FeatureCard({
-  title,
-  description,
-  icon,
-}: {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <Card className="border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:border-neutral-700">
-      <CardContent className="p-6 space-y-4">
-        <div className="flex items-center gap-3 text-white">
-          <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg">
-            {icon}
-          </div>
-          <h3 className="text-lg font-semibold">{title}</h3>
-        </div>
-        <p className="text-sm text-neutral-400">{description}</p>
-      </CardContent>
-    </Card>
-  );
-}
+// function FeatureCard({
+//   title,
+//   description,
+//   icon,
+// }: {
+//   title: string;
+//   description: string;
+//   icon: React.ReactNode;
+// }) {
+//   return (
+//     <Card className="border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:border-neutral-700">
+//       <CardContent className="p-6 space-y-4">
+//         <div className="flex items-center gap-3 text-white">
+//           <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg">
+//             {icon}
+//           </div>
+//           <h3 className="text-lg font-semibold">{title}</h3>
+//         </div>
+//         <p className="text-sm text-neutral-400">{description}</p>
+//       </CardContent>
+//     </Card>
+//   );
+// }

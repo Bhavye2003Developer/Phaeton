@@ -3,7 +3,7 @@ import { ConfigState, Encryption } from "./types";
 const enc = new TextEncoder();
 const dec = new TextDecoder("utf-8");
 
-const DEFAULT_PASSWORD = "0000xx1234";
+const DEFAULT_PASSWORD = process.env.NEXT_PUBLIC_DEFAULT_PASSWORD;
 
 export async function SafeContentAndConfig(
   content: string,
@@ -14,7 +14,7 @@ export async function SafeContentAndConfig(
   const password =
     safeConfig.password.isEnabled && safeConfig.password.value.trim() !== ""
       ? safeConfig.password.value
-      : DEFAULT_PASSWORD;
+      : DEFAULT_PASSWORD!;
 
   console.log("Setting password: ", password);
 
@@ -77,7 +77,7 @@ export async function decryptMessage(
   cipherText: ArrayBuffer,
   MessagePassword: string
 ) {
-  const password = MessagePassword !== "" ? MessagePassword : DEFAULT_PASSWORD;
+  const password = MessagePassword !== "" ? MessagePassword : DEFAULT_PASSWORD!;
 
   const iv = enc.encode(password);
   const cryptoKey = await generateKey(password, "decrypt");

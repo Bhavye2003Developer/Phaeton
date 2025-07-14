@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
 import { Textarea } from "../ui/textarea";
-import { Separator } from "../ui/separator";
 import ConfigSection from "./ConfigSection";
 import LinkGenerator from "./LinkGenerator";
 import useMessageStore from "@/lib/useMessageStore";
@@ -13,7 +12,6 @@ export default function SendPage() {
 
   return (
     <div className="min-h-screen bg-black/[0.96] text-[--text-primary] flex items-center justify-center p-6 relative overflow-hidden font-inter">
-      {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
@@ -22,7 +20,6 @@ export default function SendPage() {
 
       <Card className="w-full max-w-4xl glass-strong rounded-3xl border border-[--border-primary] shadow-[--shadow-md] relative z-10 bg-black/[0.96]">
         <CardContent className="p-0">
-          {/* Header Section */}
           <div className="bg-gradient-primary px-8 py-8 text-white relative overflow-hidden rounded-t-3xl">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 backdrop-blur-sm"></div>
             <div className="flex items-center gap-4 relative z-10">
@@ -45,9 +42,7 @@ export default function SendPage() {
             </div>
           </div>
 
-          {/* Main Content */}
           <div className="p-8 space-y-8">
-            {/* Message Area */}
             <div className="space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="w-5 h-5 text-[--text-muted]" />
@@ -76,13 +71,6 @@ export default function SendPage() {
               </div>
             </div>
 
-            {/* Divider */}
-            {/* <div className="relative">
-              <Separator className="bg-gradient-to-r from-transparent via-[--border-secondary] to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent blur-sm"></div>
-            </div> */}
-
-            {/* Config Section */}
             <div className="glass rounded-2xl p-6 border border-[--border-primary] shadow-[--shadow-sm] relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-2xl"></div>
               <div className="relative z-10">
@@ -91,7 +79,6 @@ export default function SendPage() {
             </div>
           </div>
 
-          {/* Link Generator */}
           <div className="px-8 pb-8">
             <div className="glass rounded-2xl p-6 border border-[--border-primary] shadow-[--shadow-sm] relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl"></div>
