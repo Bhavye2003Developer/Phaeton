@@ -45,7 +45,7 @@ Phaeton implements client-side encryption to ensure that your messages remain pr
 -   **Web Crypto API** - Browser-native cryptographic operations
 -   **AES-GCM** - Authenticated encryption algorithm
 
-<img width="512" height="768" alt="how_it_works" src="https://github.com/user-attachments/assets/e6a60860-f5f1-4485-9332-82c10eac09b7" />
+<img width="512" height="768" alt="how_it_works" src="https://github.com/user-attachments/assets/7ca5346f-f3c9-4d32-9949-9a1cf91f8e17" />
 
 ## Getting Started
 
