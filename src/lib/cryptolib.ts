@@ -16,8 +16,6 @@ export async function SafeContentAndConfig(
       ? safeConfig.password.value
       : DEFAULT_PASSWORD!;
 
-  console.log("Setting password: ", password);
-
   const safeContent = await encryptMessage(content, password);
 
   if (safeConfig.password.isEnabled)
