@@ -50,7 +50,7 @@ export async function GET(
         await deleteMessageData(messageId);
       } else {
         const config = { ...transaction.config! };
-        const { id, messageId, ...configWithoutId } = config;
+        const { id: _, messageId, ...configWithoutId } = config;
         configWithoutId.openLimit -= 1;
         await updateConfig(messageId, configWithoutId);
       }

@@ -47,8 +47,8 @@ export default function OpenLimitSection() {
       <div className="flex items-center gap-2 text-xs text-neutral-400">
         <CheckCircle2 className="w-3 h-3" />
         <span>
-          Number of times this message can be opened. "No Limit" allows
-          unlimited views.
+          Number of times this message can be opened. &quot;No Limit&quot;
+          allows unlimited views.
         </span>
       </div>
     </div>

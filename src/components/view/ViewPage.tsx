@@ -83,7 +83,7 @@ export default function ViewPage({ messageId }: { messageId: string }) {
 
   useEffect(() => {
     fetchMessage();
-  }, []);
+  });
 
   const initiateDecryption = async () => {
     if (!messageData) return;

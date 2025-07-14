@@ -13,7 +13,7 @@ export default function NetworkErrorSection() {
         </h3>
 
         <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
-          We're having trouble connecting to our servers. Please check your
+          We&apos;re having trouble connecting to our servers. Please check your
           internet connection and try again.
         </p>
       </div>

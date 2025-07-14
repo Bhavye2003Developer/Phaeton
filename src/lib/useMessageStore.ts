@@ -15,7 +15,7 @@ interface MessageState {
   }) => void;
 }
 
-const useMessageStore = create<MessageState>((set, get) => ({
+const useMessageStore = create<MessageState>((set) => ({
   content: "",
   config: {
     encryption: Encryption["AES-GCM"],

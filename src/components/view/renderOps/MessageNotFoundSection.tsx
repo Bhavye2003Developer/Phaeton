@@ -22,9 +22,9 @@ export default function MessageNotFoundSection({
         </h3>
 
         <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
-          The message you're looking for doesn't exist or may have already
-          expired. This could happen if the message was burned or the link is
-          incorrect.
+          The message you&apos;re looking for doesn&apos;t exist or may have
+          already expired. This could happen if the message was burned or the
+          link is incorrect.
         </p>
 
         <div className="space-y-3">

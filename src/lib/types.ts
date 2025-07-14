@@ -1,5 +1,3 @@
-import { NextResponse } from "next/server";
-
 export enum Encryption {
   "AES-GCM" = "AES-GCM",
 }
@@ -43,5 +41,5 @@ export enum ResponseStatus {
 
 export type ApiResponse = {
   status: ResponseStatus;
-  data: Object | null;
+  data: object | null;
 };

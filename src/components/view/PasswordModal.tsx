@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Lock, AlertCircle, Shield, Sparkles } from "lucide-react";
+import { Eye, EyeOff, Lock, AlertCircle, Shield } from "lucide-react";
 import { checkPassword } from "@/lib/cryptolib";
 
 export default function PasswordModal({
@@ -60,7 +60,7 @@ export default function PasswordModal({
           inputRef.current?.focus();
         }, 100);
       }
-    } catch (err) {
+    } catch {
       setError(true);
       setPassword("");
     } finally {

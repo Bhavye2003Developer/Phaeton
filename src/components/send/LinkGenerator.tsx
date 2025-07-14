@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import QRCodeSection from "./QRCodeSection";
 import { SEND_API } from "@/lib/constants";
-import { ApiResponse } from "@/lib/types";
 
 export default function LinkGenerator() {
   const BASE_URL = typeof window !== undefined ? window.location.origin : "";
