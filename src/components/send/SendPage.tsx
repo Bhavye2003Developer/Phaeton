@@ -18,7 +18,7 @@ export default function SendPage() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-blue-400/5 to-purple-400/5 rounded-full blur-2xl animate-pulse delay-500"></div>
       </div>
 
-      <Card className="w-full max-w-4xl glass-strong rounded-3xl border border-[--border-primary] shadow-[--shadow-md] relative z-10 bg-black/[0.96]">
+      <Card className="w-full max-w-4xl glass-strong rounded-3xl border-none shadow-[--shadow-md] relative z-10 bg-black/[0.96]">
         <CardContent className="p-0">
           <div className="bg-gradient-primary px-8 py-8 text-white relative overflow-hidden rounded-t-3xl">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 backdrop-blur-sm"></div>

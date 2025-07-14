@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import QRCodeSection from "./QRCodeSection";
 import { SEND_API } from "@/lib/constants";
+import { ApiResponse } from "@/lib/types";
 
 export default function LinkGenerator() {
   const BASE_URL = typeof window !== undefined ? window.location.origin : "";
@@ -123,8 +124,7 @@ export default function LinkGenerator() {
               </span>
               <div className="flex items-center gap-1 px-2 py-0.5 bg-[#1e1e1e] rounded-full text-xs text-green-500 border border-green-700">
                 <Shield className="w-3 h-3" />
-                <span className="hidden xs:inline">Encrypted</span>
-                <span className="xs:hidden">🔒</span>
+                <span className="xs:inline">Encrypted</span>
               </div>
             </div>
 

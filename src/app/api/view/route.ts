@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "../../../../generated/prisma";
+import { ApiResponse, ResponseStatus } from "@/lib/types";
 
 const prisma = new PrismaClient();
 
@@ -18,8 +19,6 @@ const updateConfig = async (
       ...updatedConfig,
     },
   });
-  console.log(updatedConfig);
-  console.log("Config updated in the db");
 };
 
 const deleteMessageData = async (messageId: string) => {
@@ -28,10 +27,11 @@ const deleteMessageData = async (messageId: string) => {
       id: messageId,
     },
   });
-  console.log("Message along with config deleted");
 };
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest
+): Promise<NextResponse<ApiResponse>> {
   const messageId: string = req.nextUrl.searchParams.get("message_id")!;
   let data = {};
   if (messageId.length === 24) {
@@ -45,7 +45,6 @@ export async function GET(req: NextRequest) {
         config: true,
       },
     });
-    console.log("Transaction: ", transaction);
     if (transaction) {
       if (transaction.config!.openLimit <= 1) {
         await deleteMessageData(messageId);
@@ -60,7 +59,10 @@ export async function GET(req: NextRequest) {
     }
   }
   return NextResponse.json({
-    status: Object.keys(data).length < 1 ? 404 : 200,
+    status:
+      Object.keys(data).length < 1
+        ? ResponseStatus.NOT_FOUND
+        : ResponseStatus.SUCCESS,
     data: data,
   });
 }

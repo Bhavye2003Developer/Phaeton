@@ -28,32 +28,34 @@ export default function PasswordSection() {
   }, [enabled, passwordType, value, updatePasswordConfig]);
 
   return (
-    <div className="space-y-4 p-4 rounded-xl border border-[#404040] bg-black/[0.96] transition-all duration-300">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-neutral-300">
-          <Lock className="w-4 h-4" />
-          <Label className="text-sm font-medium">Password Protection</Label>
+    <div className="space-y-4 p-3 sm:p-4 rounded-xl border border-[#404040] bg-black/[0.96] transition-all duration-300">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-neutral-300 min-w-0">
+          <Lock className="w-4 h-4 shrink-0" />
+          <Label className="text-sm font-medium truncate">
+            Password Protection
+          </Label>
         </div>
         <Switch
           checked={enabled}
           onCheckedChange={setEnabled}
-          className="data-[state=checked]:bg-[#3b82f6]"
+          className="data-[state=checked]:bg-[#3b82f6] shrink-0"
         />
       </div>
 
       {enabled && (
         <>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             <button
               type="button"
               onClick={() => {
                 setPasswordType(PasswordType.text);
                 setValue("");
               }}
-              className={`text-sm px-4 py-2 rounded-lg border transition ${
+              className={`text-sm px-3 sm:px-4 py-2 rounded-lg border transition flex-1 sm:flex-none ${
                 passwordType === PasswordType.text
                   ? "bg-[#3b82f6] text-white border-[#3b82f6]"
-                  : "text-neutral-300 border-[#404040]"
+                  : "text-neutral-300 border-[#404040] hover:border-[#525252]"
               }`}
             >
               Alphanumeric
@@ -64,10 +66,10 @@ export default function PasswordSection() {
                 setPasswordType(PasswordType.number);
                 setValue("");
               }}
-              className={`text-sm px-4 py-2 rounded-lg border transition ${
+              className={`text-sm px-3 sm:px-4 py-2 rounded-lg border transition flex-1 sm:flex-none ${
                 passwordType === PasswordType.number
                   ? "bg-[#3b82f6] text-white border-[#3b82f6]"
-                  : "text-neutral-300 border-[#404040]"
+                  : "text-neutral-300 border-[#404040] hover:border-[#525252]"
               }`}
             >
               Numeric
@@ -97,12 +99,12 @@ export default function PasswordSection() {
                     ? "Enter numeric code"
                     : "Enter password"
                 }
-                className="pr-12 bg-[#0a0a0a] border border-[#404040] text-white"
+                className="pr-12 bg-[#0a0a0a] border border-[#404040] text-white focus:border-[#3b82f6] text-sm sm:text-base"
               />
               <button
                 type="button"
                 onClick={() => setShow((prev) => !prev)}
-                className="absolute inset-y-0 right-3 flex items-center text-neutral-400 hover:text-white"
+                className="absolute inset-y-0 right-3 flex items-center text-neutral-400 hover:text-white touch-manipulation"
               >
                 {show ? (
                   <EyeOff className="w-4 h-4" />
@@ -111,9 +113,9 @@ export default function PasswordSection() {
                 )}
               </button>
             </div>
-            <div className="flex items-center gap-2 text-xs text-neutral-500">
-              <Shield className="w-3 h-3" />
-              <span>
+            <div className="flex items-start sm:items-center gap-2 text-xs text-neutral-500">
+              <Shield className="w-3 h-3 shrink-0 mt-0.5 sm:mt-0" />
+              <span className="leading-relaxed">
                 {passwordType === PasswordType.number
                   ? "Numeric PIN required to access message"
                   : "Alphanumeric password required to access message"}
