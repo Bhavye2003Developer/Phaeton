@@ -55,7 +55,7 @@ export default function LinkGenerator() {
     } finally {
       setIsGenerating(false);
     }
-  }, [content, config]);
+  }, [content, config, BASE_URL]);
 
   const copyToClipboard = useCallback(async () => {
     if (!link) return;
