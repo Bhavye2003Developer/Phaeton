@@ -3,7 +3,7 @@
 import useMessageStore from "@/lib/useMessageStore";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SafeContentAndConfig } from "@/lib/cryptolib";
 import {
   Link2,
@@ -18,11 +18,11 @@ import QRCodeSection from "./QRCodeSection";
 import { SEND_API } from "@/lib/constants";
 
 export default function LinkGenerator() {
-  const BASE_URL = typeof window !== undefined ? window.location.origin : "";
   const { content, config } = useMessageStore();
   const [link, setLink] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [BASE_URL, setBASE_URL] = useState("");
 
   const generateLink = useCallback(async () => {
     if (content.trim() === "") {
@@ -69,6 +69,10 @@ export default function LinkGenerator() {
       toast.error("Failed to copy link");
     }
   }, [link]);
+
+  useEffect(() => {
+    setBASE_URL(window.location.origin);
+  });
 
   return (
     <div className="w-full space-y-4 sm:space-y-6 px-4 sm:px-0">
