@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "../../../../generated/prisma";
 import { ApiResponse, ResponseStatus } from "@/lib/types";
-
-const prisma = new PrismaClient();
 
 const updateConfig = async (
   messageId: string,
