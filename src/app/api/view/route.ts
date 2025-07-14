@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ApiResponse, ResponseStatus } from "@/lib/types";
+import prisma from "@/lib/prisma";
 
 const updateConfig = async (
   messageId: string,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LoadingState, MessageData } from "@/lib/types";
+import { LoadingState, MessageData, ResponseStatus } from "@/lib/types";
 import { Card, CardContent } from "@/components/ui/card";
 import PasswordModal from "./PasswordModal";
 import { decryptMessage } from "@/lib/cryptolib";
@@ -55,12 +55,12 @@ export default function ViewPage({ messageId }: { messageId: string }) {
       const request = await fetch(`${VIEW_API}?message_id=${messageId}`);
       const response = await request.json();
 
-      if (response.status === 404) {
+      if (response.status === ResponseStatus.NOT_FOUND) {
         setLoadingState("not_found");
         return;
       }
 
-      if (response.status !== 200) {
+      if (response.status !== ResponseStatus.SUCCESS) {
         setLoadingState("error");
         toast.error("Failed to load message");
         return;
@@ -83,7 +83,7 @@ export default function ViewPage({ messageId }: { messageId: string }) {
 
   useEffect(() => {
     fetchMessage();
-  });
+  }, []);
 
   const initiateDecryption = async () => {
     if (!messageData) return;

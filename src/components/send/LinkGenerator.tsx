@@ -72,7 +72,7 @@ export default function LinkGenerator() {
 
   useEffect(() => {
     setBASE_URL(window.location.origin);
-  });
+  }, []);
 
   return (
     <div className="w-full space-y-4 sm:space-y-6 px-4 sm:px-0">

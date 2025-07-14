@@ -12,9 +12,6 @@ export default function MessageNotFoundSection({
           <div className="w-20 h-20 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
             <Search className="w-10 h-10 text-slate-400 dark:text-slate-500" />
           </div>
-          <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-red-400 to-red-500 rounded-full flex items-center justify-center shadow-lg">
-            <span className="text-white text-xs font-bold">!</span>
-          </div>
         </div>
 
         <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-3">
