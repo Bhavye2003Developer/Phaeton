@@ -45,22 +45,7 @@ Phaeton implements client-side encryption to ensure that your messages remain pr
 -   **Web Crypto API** - Browser-native cryptographic operations
 -   **AES-GCM** - Authenticated encryption algorithm
 
-## How It Works
-
-1.  **Message Creation**: User writes a message and configures security settings (password, expiry, burn timer, view limit)
-    
-2.  **Client-side Encryption**: Message is encrypted in the browser using AES-GCM with a password-derived key
-    
-3.  **Secure Storage**: Only the encrypted message and password hash are sent to the server
-    
-4.  **Link Generation**: A unique shareable link is created: `/view?msg_id=abc123`
-    
-5.  **Secure Retrieval**: When accessed:
-    
-    -   Password verification (if protected)
-    -   Client-side decryption in the recipient's browser
-    -   Burn timer activation (if configured)
-    -   View count and limit enforcement
+<img width="1024" height="1536" alt="how_it_works" src="https://github.com/user-attachments/assets/e6a60860-f5f1-4485-9332-82c10eac09b7" />
 
 ## Getting Started
 
