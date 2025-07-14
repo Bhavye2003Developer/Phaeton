@@ -79,15 +79,13 @@ export async function decryptMessage(
 
   const iv = enc.encode(password);
   const cryptoKey = await generateKey(password, "decrypt");
-  console.log("About to decrypt it, with password: ", password, iv, cryptoKey);
   const decryptedMessageBuffer = await crypto.subtle.decrypt(
     { name: Encryption["AES-GCM"], iv },
     cryptoKey,
     cipherText
   );
-  console.log("Decrypt messageBuffer: ", decryptedMessageBuffer);
+
   const message = dec.decode(decryptedMessageBuffer);
-  console.log("Message: ", message);
   return message;
 }
 

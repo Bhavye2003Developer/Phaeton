@@ -21,7 +21,7 @@ export default function SendPage() {
       <Card className="w-full max-w-4xl glass-strong rounded-3xl border-none shadow-[--shadow-md] relative z-10 bg-black/[0.96]">
         <CardContent className="p-0">
           <div className="bg-gradient-primary px-8 py-8 text-white relative overflow-hidden rounded-t-3xl">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 backdrop-blur-sm"></div>
+            <div className="absolute inset-0 backdrop-blur-sm"></div>
             <div className="flex items-center gap-4 relative z-10">
               <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/20 shadow">
                 <Send className="w-6 h-6" />
@@ -67,12 +67,11 @@ export default function SendPage() {
                   value={content}
                   onChange={(e) => updateContent(e.target.value)}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               </div>
             </div>
 
             <div className="glass rounded-2xl p-6 border border-[--border-primary] shadow-[--shadow-sm] relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-2xl"></div>
+              <div className="absolute inset-0rounded-2xl"></div>
               <div className="relative z-10">
                 <ConfigSection />
               </div>
@@ -81,7 +80,6 @@ export default function SendPage() {
 
           <div className="px-8 pb-8">
             <div className="glass rounded-2xl p-6 border border-[--border-primary] shadow-[--shadow-sm] relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl"></div>
               <div className="relative z-10">
                 <LinkGenerator />
               </div>

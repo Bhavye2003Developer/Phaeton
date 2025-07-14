@@ -58,7 +58,6 @@ export default function Home() {
     <main className="min-h-screen relative flex flex-col items-center justify-center bg-black/[0.96] antialiased px-4 sm:px-6 lg:px-8 py-8 sm:py-12 overflow-hidden">
       <section className="text-center max-w-4xl space-y-6 sm:space-y-8 z-10 relative">
         <div className="relative">
-          {/* Gradient lines - responsive positioning */}
           <div className="absolute inset-x-10 sm:inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
           <div className="absolute inset-x-10 sm:inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
           <div className="absolute inset-x-20 sm:inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-sm" />
