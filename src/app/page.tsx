@@ -77,7 +77,7 @@ export default function Home() {
 
         <TextGenerateEffect
           words="Send encrypted, n-times messages that self-destruct after viewing. No accounts. No tracking. Just secrets."
-          className="text-neutral-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-4"
+          className="text-white text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-4"
         />
 
         <motion.div
